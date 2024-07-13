@@ -23,7 +23,7 @@ return [
     // Register服务监听端口，Register端口千万不能开放给外网，否则可能遭受攻击。
     // 客户端不要连接Register服务的端口，Register服务是Socket内部通讯用的。
     'port' => 1236,
-    // Socket通讯密钥
+    // Gateway通讯密钥
     'secret_key' => '',
     // 是否允许reload
     'reloadable' => false,
