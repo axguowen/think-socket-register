@@ -11,9 +11,7 @@
 
 namespace think\socket\register;
 
-use think\App;
-use think\console\Input;
-use think\console\Output;
+use think\facade\App;
 use Workerman\Worker;
 use GatewayWorker\Register as GatewayRegister;
 
@@ -40,38 +38,15 @@ class Register
 	];
 
     /**
-     * App实例
-     * @var App
-     */
-    protected $app;
-
-    /**
-     * Input实例
-     * @var Input
-     */
-    protected $input;
-
-    /**
-     * Output实例
-     * @var Output
-     */
-    protected $output;
-
-    /**
      * 架构函数
      * @access public
-	 * @param App $app 应用实例
-     * @param Input $input 输入
-     * @param Output $output 输出
+     * @param array $options
      * @return void
      */
-    public function __construct(App $app, Input $input, Output $output)
+    public function __construct(array $options = [])
     {
-        $this->app = $app;
-        $this->input = $input;
-        $this->output = $output;
         // 合并配置
-		$this->options = array_merge($this->options, $this->app->config->get('socketregister'));
+		$this->options = array_merge($this->options, $options);
         // 初始化
 		$this->init();
     }
@@ -91,13 +66,13 @@ class Register
             $register->name = 'think-socket-register';
         }
         // 设置runtime路径
-        $this->app->setRuntimePath($this->app->getRuntimePath() . $register->name . DIRECTORY_SEPARATOR);
+        App::setRuntimePath(App::getRuntimePath() . $register->name . DIRECTORY_SEPARATOR);
         // Socket通讯密钥
         $register->secretKey = $this->options['secret_key'];
         // 是否允许reload
         $register->reloadable = $this->options['reloadable'];
         // 如果指定以守护进程方式运行
-        if ($this->input->hasOption('daemon') || true === $this->options['daemonize']) {
+        if (true === $this->options['daemonize']) {
             Worker::$daemonize = true;
         }
 	}
