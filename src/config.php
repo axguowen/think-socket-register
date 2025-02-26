@@ -23,4 +23,10 @@ return [
     'reloadable' => false,
     // 是否以守护进程启动
     'daemonize' => false,
+    // 内容输出文件路径
+    'stdout_file' => '',
+    // pid文件路径
+    'pid_file' => '',
+    // 日志文件路径
+    'log_file' => '',
 ];
